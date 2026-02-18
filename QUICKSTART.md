@@ -77,7 +77,6 @@ Model test passed!
 ```
 
 ## Running a Demo
-## Running a Demo
 
 ```bash
 # Run a comprehensive demo
