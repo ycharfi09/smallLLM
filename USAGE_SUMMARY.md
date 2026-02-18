@@ -111,6 +111,7 @@ python run_model.py --prompt "class AI:" --temperature 0.9 --max_tokens 300
 ## 📚 Documentation
 
 - **[PRETRAINED_MODEL_GUIDE.md](PRETRAINED_MODEL_GUIDE.md)** - Comprehensive guide
+- **[BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md)** - Benchmarking and model comparison
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick start tutorial
 - **[README.md](README.md)** - Full project documentation
 
@@ -150,8 +151,10 @@ python run_model.py --interactive
 
 1. **Try it out**: Run `python demo.py` to see all features
 2. **Experiment**: Use interactive mode to test different prompts
-3. **Customize**: Fine-tune on your own code dataset
-4. **Integrate**: Use in your applications via the API
+3. **Benchmark**: Run `python benchmark.py --checkpoint pretrained_smallcoder.pt` to evaluate performance
+4. **Compare**: Use `--compare` flag to compare with other coding models
+5. **Customize**: Fine-tune on your own code dataset
+6. **Integrate**: Use in your applications via the API
 
 ## 📞 Support
 

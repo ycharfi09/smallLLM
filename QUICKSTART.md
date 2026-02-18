@@ -189,12 +189,30 @@ python inference.py --checkpoint model.pt --device cpu
 ## Next Steps
 
 1. **Read the README**: Full documentation in [README.md](README.md)
-2. **Check examples**: More examples in [examples.py](examples.py)
-3. **Explore scripts**:
+2. **Benchmark the model**: Test performance with [BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md)
+3. **Check examples**: More examples in [examples.py](examples.py)
+4. **Explore scripts**:
    - `train.py` - Training script
    - `inference.py` - Inference and generation
+   - `benchmark.py` - Evaluation and model comparison
    - `distill.py` - Knowledge distillation
-   - `benchmark.py` - Evaluation benchmarks
+
+## Benchmarking Your Model
+
+Want to see how SmallCoder performs?
+
+```bash
+# Quick benchmark
+python benchmark.py --checkpoint pretrained_smallcoder.pt
+
+# Compare with other models
+python benchmark.py \
+    --checkpoint pretrained_smallcoder.pt \
+    --compare \
+    --comparison-models codegen-350m starcoder-1b
+```
+
+See [BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md) for complete benchmarking documentation.
 
 ## Need Help?
 

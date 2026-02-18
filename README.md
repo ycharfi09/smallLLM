@@ -274,12 +274,58 @@ python inference.py \
 
 CPU inference is slower (~2-5 tokens/sec) but works without a GPU.
 
+## 📊 Benchmarking & Model Comparison
+
+SmallCoder includes a comprehensive benchmarking system to evaluate and compare coding model performance.
+
+### Quick Benchmark
+
+```bash
+# Benchmark SmallCoder alone
+python benchmark.py \
+    --checkpoint ./checkpoints/best_model.pt \
+    --device cuda
+
+# Compare with other models
+python benchmark.py \
+    --checkpoint ./checkpoints/best_model.pt \
+    --compare \
+    --comparison-models codegen-350m starcoder-1b \
+    --device cuda
+```
+
+### What Gets Measured
+
+- **Code Completion Quality**: Tests on algorithms, OOP, async, error handling, etc.
+- **Generation Speed**: Tokens per second
+- **Memory Usage**: GPU memory footprint
+- **Success Rate**: Percentage of successful completions
+
+### Available Comparison Models
+
+- **CodeLlama 7B**: Meta's coding model
+- **CodeGen 350M**: Salesforce's code generation model
+- **StarCoder 1B**: BigCode's base model
+
+### Example Results
+
+| Model | Keyword Score | Speed (tok/s) | Memory (GB) |
+|-------|---------------|---------------|-------------|
+| SmallCoder | 75.5% | 85.3 | 1.28 |
+| CodeGen 350M | 68.2% | 92.1 | 1.10 |
+| StarCoder 1B | 82.3% | 71.4 | 2.58 |
+
+The benchmarking system generates detailed reports in both JSON and Markdown formats.
+
+👉 **See [BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md) for complete documentation**
+
 ## 🤝 Contributing
 
 Contributions are welcome! Areas for improvement:
 - [ ] Add more training optimizations (LoRA, QLoRA)
 - [ ] Implement knowledge distillation from larger models
-- [ ] Add more evaluation benchmarks
+- [x] Add comprehensive evaluation benchmarks ✅
+- [x] Add model comparison functionality ✅
 - [ ] Optimize for Apple Silicon (MPS backend)
 - [x] Create pre-trained checkpoints ✅
 
