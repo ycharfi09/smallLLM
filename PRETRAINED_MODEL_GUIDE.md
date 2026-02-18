@@ -23,7 +23,7 @@ Since the model file is large (~1.2GB), we generate it locally instead of commit
 python pretrained_model.py
 ```
 
-This takes about 10-30 seconds and creates a model with:
+This takes about 30 seconds and creates a model with:
 - **~304M parameters**
 - Properly initialized weights using state-of-the-art techniques
 - Ready for immediate inference or fine-tuning
