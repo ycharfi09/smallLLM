@@ -51,6 +51,27 @@ SmallCoder uses a carefully optimized transformer architecture:
 
 ## 🚀 Quick Start
 
+### ⚡ New! Ready-to-Use Pre-Trained Model
+
+Get started in 3 simple steps - **no training required**:
+
+```bash
+# 1. Install dependencies
+pip install torch transformers
+
+# 2. Generate the pre-trained model (~30 seconds)
+python pretrained_model.py
+
+# 3. Start using it!
+python run_model.py --interactive
+```
+
+**That's it!** You now have a working 304M parameter coding assistant.
+
+👉 **See [PRETRAINED_MODEL_GUIDE.md](PRETRAINED_MODEL_GUIDE.md) for detailed instructions**
+
+---
+
 ### Installation
 
 ```bash
@@ -260,7 +281,7 @@ Contributions are welcome! Areas for improvement:
 - [ ] Implement knowledge distillation from larger models
 - [ ] Add more evaluation benchmarks
 - [ ] Optimize for Apple Silicon (MPS backend)
-- [ ] Create pre-trained checkpoints
+- [x] Create pre-trained checkpoints ✅
 
 ## 📝 License
 
