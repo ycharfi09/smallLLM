@@ -124,8 +124,6 @@ def main():
     parser.add_argument('--warmup_steps', type=int, default=500, help='Warmup steps')
     parser.add_argument('--save_steps', type=int, default=1000, help='Save checkpoint every N steps')
     parser.add_argument('--use_fp16', action='store_true', help='Use mixed precision training')
-    parser.add_argument('--gradient_checkpointing', action='store_true', 
-                        help='Use gradient checkpointing to save memory')
     args = parser.parse_args()
     
     # Setup
@@ -150,12 +148,6 @@ def main():
     )
     model = SmallCoderForCausalLM(config)
     print(f"Model parameters: {count_parameters(model):,} (~{count_parameters(model)/1e6:.1f}M)")
-    
-    # Enable gradient checkpointing if requested
-    if args.gradient_checkpointing:
-        print("Enabling gradient checkpointing...")
-        # Note: This would require implementing gradient checkpointing in the model
-        # For now, we'll just note it
     
     model = model.to(device)
     

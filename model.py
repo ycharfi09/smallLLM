@@ -1,6 +1,6 @@
 """
 SmallCoder: An efficient coding LLM optimized for limited hardware
-Architecture: ~350M parameters, suitable for 2GB VRAM + 8GB RAM
+Architecture: ~304M parameters, suitable for 2GB VRAM + 8GB RAM
 """
 
 import math

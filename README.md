@@ -4,7 +4,7 @@ A high-performance, memory-efficient coding LLM designed to run on consumer hard
 
 ## ✨ Key Features
 
-- **Compact Size**: ~350M parameters, yet competitive with models 10-20x larger
+- **Compact Size**: ~304M parameters, yet competitive with models 10-20x larger
 - **Memory Efficient**: Runs smoothly on 2GB VRAM with optimizations
 - **Fast Inference**: Optimized for quick code generation
 - **State-of-the-Art Architecture**:
@@ -79,15 +79,13 @@ python train.py \
     --gradient_accumulation_steps 16 \
     --learning_rate 3e-4 \
     --num_epochs 3 \
-    --use_fp16 \
-    --gradient_checkpointing
+    --use_fp16
 ```
 
 **Training Tips for Limited Hardware:**
 - Use `--batch_size 1` or `2` for 2GB VRAM
 - Increase `--gradient_accumulation_steps` to 32 for effective batch size
 - Use `--use_fp16` for mixed precision training
-- Enable `--gradient_checkpointing` to save memory
 - Reduce `--max_length` to 256 or 512 if OOM occurs
 
 ### Inference
@@ -195,14 +193,14 @@ Monitor training progress and adjust hyperparameters:
    - Critical for fitting in 2GB VRAM
 
 2. **Optimized Architecture**
-   - 16 layers strike balance between depth and speed
-   - 1024 hidden size is optimal for 350M parameters
+   - 18 layers strike balance between depth and speed
+   - 1152 hidden size is optimal for 304M parameters
    - SwiGLU activation improves quality without extra params
 
 3. **Smart Training Techniques**
    - Gradient accumulation for large effective batch sizes
    - Mixed precision (FP16) cuts memory by 50%
-   - Gradient checkpointing trades computation for memory
+   - Efficient data loading and preprocessing
 
 4. **Inference Optimizations**
    - KV caching for fast autoregressive generation
@@ -241,8 +239,7 @@ python train.py \
     --batch_size 1 \
     --gradient_accumulation_steps 32 \
     --max_length 256 \
-    --use_fp16 \
-    --gradient_checkpointing
+    --use_fp16
 ```
 
 ### For 8GB RAM Only (No GPU)

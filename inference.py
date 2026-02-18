@@ -26,19 +26,25 @@ def load_model(checkpoint_path, device='cuda', quantize=False):
     # Create model
     model = SmallCoderForCausalLM(config)
     model.load_state_dict(checkpoint['model_state_dict'])
-    model = model.to(device)
-    model.eval()
     
-    # Apply quantization if requested
-    if quantize and device == 'cuda':
+    # Apply quantization if requested (only works on CPU)
+    if quantize:
         print("Applying INT8 quantization...")
         try:
+            # Move to CPU for quantization
+            model = model.to('cpu')
             model = torch.quantization.quantize_dynamic(
                 model, {torch.nn.Linear}, dtype=torch.qint8
             )
+            if device == 'cuda':
+                print("Note: Quantized model will run on CPU (quantization not supported on CUDA)")
+                device = 'cpu'
         except Exception as e:
             print(f"Quantization failed: {e}")
             print("Continuing without quantization...")
+    
+    model = model.to(device)
+    model.eval()
     
     return model, config
 

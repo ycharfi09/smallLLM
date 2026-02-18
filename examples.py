@@ -175,9 +175,8 @@ def example_5_training_tips():
     1. Reduce batch size to 1 or 2
     2. Use gradient accumulation (16-32 steps) for effective larger batches
     3. Enable mixed precision training (FP16)
-    4. Use gradient checkpointing to trade computation for memory
-    5. Reduce sequence length to 256 or 512 tokens
-    6. Consider using CPU offloading for optimizer states
+    4. Reduce sequence length to 256 or 512 tokens
+    5. Consider using CPU offloading for optimizer states
     
     Example training command:
     ```bash
@@ -186,13 +185,12 @@ def example_5_training_tips():
         --gradient_accumulation_steps 32 \\
         --max_length 256 \\
         --use_fp16 \\
-        --gradient_checkpointing \\
         --num_epochs 3
     ```
     
     For inference optimization:
     
-    1. Use INT8 quantization to reduce memory by 4x
+    1. Use INT8 quantization to reduce memory by ~2x (from FP16)
     2. Enable KV caching for faster generation
     3. Reduce max_new_tokens for faster responses
     4. Consider batch size 1 for memory efficiency
