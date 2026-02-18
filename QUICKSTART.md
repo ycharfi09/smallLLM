@@ -2,6 +2,43 @@
 
 This guide will help you get started with SmallCoder in 5 minutes!
 
+## ⚡ New! Ready-to-Use Pre-Trained Model
+
+**Get started in 3 steps - no training required!**
+
+### Step 1: Install Dependencies (1 minute)
+
+```bash
+# Install PyTorch and transformers
+pip install torch transformers
+
+# Or install all dependencies
+pip install -r requirements.txt
+```
+
+### Step 2: Generate Pre-Trained Model (30 seconds)
+
+```bash
+# Creates pretrained_smallcoder.pt with initialized weights
+python pretrained_model.py
+```
+
+### Step 3: Use the Model! (instantly)
+
+```bash
+# Interactive mode - just type your prompts!
+python run_model.py --interactive
+
+# Or single generation
+python run_model.py --prompt "def fibonacci(n):"
+```
+
+**That's it!** 🎉 You now have a working 304M parameter coding assistant!
+
+👉 **For detailed instructions, see [PRETRAINED_MODEL_GUIDE.md](PRETRAINED_MODEL_GUIDE.md)**
+
+---
+
 ## Prerequisites
 
 ```bash
@@ -10,24 +47,23 @@ python --version
 pip --version
 ```
 
-## Step 1: Installation (2 minutes)
+## Alternative: Training Your Own Model
+
+If you want to train from scratch or customize the model:
 
 ```bash
 # Clone the repository
 git clone https://github.com/ycharfi09/smallLLM.git
 cd smallLLM
 
-# Install core dependencies
-pip install torch transformers tokenizers
-
-# Or install all dependencies
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Step 2: Test the Model (1 minute)
+## Testing the Model Architecture
 
 ```bash
-# Verify the model works
+# Verify the model architecture works
 python model.py
 ```
 
@@ -40,32 +76,77 @@ Model size: ~303.7M parameters
 Model test passed!
 ```
 
-## Step 3: Run Examples (2 minutes)
+## Running a Demo
+## Running a Demo
 
 ```bash
-# See usage examples
-python examples.py
+# Run a comprehensive demo
+python demo.py
 ```
 
-This will show you:
-- How to create a model
-- How to run forward passes
-- Different model configurations
-- Training and inference tips
+This will:
+- Create/load the pre-trained model
+- Test forward passes
+- Test generation capabilities
+- Show memory usage estimates
+- Provide next steps
 
-## Step 4: Start Coding! 🚀
+## Using the Pre-Trained Model
 
-### Option A: Use Pre-trained Model (Recommended)
+### Interactive Mode (Recommended)
 
 ```bash
-# Download or use a pre-trained checkpoint
-python inference.py \
-    --checkpoint checkpoints/best_model.pt \
-    --tokenizer codellama/CodeLlama-7b-hf \
-    --interactive
+python run_model.py --interactive
 ```
 
-### Option B: Train Your Own Model
+Then just type your code prompts:
+```
+>>> def quicksort(arr):
+>>> class Calculator:
+>>> # Function to merge two sorted arrays
+```
+
+### Single Generation
+
+```bash
+python run_model.py --prompt "def fibonacci(n):"
+```
+
+### With Options
+
+```bash
+# Use quantization for lower memory
+python run_model.py --interactive --quantize
+
+# Generate more tokens
+python run_model.py --prompt "class Tree:" --max_tokens 300
+
+# Use CPU instead of GPU
+python run_model.py --interactive --device cpu
+```
+
+## Using in Your Code
+
+```python
+import torch
+from model import SmallCoderConfig, SmallCoderForCausalLM
+
+# Load the pre-trained model
+checkpoint = torch.load('pretrained_smallcoder.pt')
+config = SmallCoderConfig(**checkpoint['config'])
+model = SmallCoderForCausalLM(config)
+model.load_state_dict(checkpoint['model_state_dict'])
+
+# Use the model
+model.eval()
+input_ids = torch.randint(0, 32000, (1, 64))
+outputs = model(input_ids=input_ids)
+print(f"Logits shape: {outputs['logits'].shape}")
+```
+
+## Training Your Own Model (Optional)
+
+If you want to fine-tune on your data:
 
 ```bash
 # Train on a code dataset
@@ -76,23 +157,14 @@ python train.py \
     --num_epochs 3
 ```
 
-### Option C: Use in Your Code
-
-```python
-import torch
-from model import SmallCoderConfig, SmallCoderForCausalLM
-
-# Create model
-config = SmallCoderConfig()
-model = SmallCoderForCausalLM(config)
-
-# Use the model
-input_ids = torch.randint(0, 32000, (1, 64))
-outputs = model(input_ids=input_ids)
-print(f"Logits shape: {outputs['logits'].shape}")
-```
-
 ## Common Issues & Solutions
+
+### Issue: "No module named 'torch'"
+
+**Solution**: Install PyTorch
+```bash
+pip install torch transformers
+```
 
 ### Issue: CUDA out of memory
 
