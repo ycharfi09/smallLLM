@@ -286,14 +286,11 @@ def measure_memory_usage(model, device='cuda'):
         torch.cuda.reset_peak_memory_stats()
         torch.cuda.empty_cache()
         
-        # Dummy forward pass
+        # Dummy forward pass to measure memory
         dummy_input = torch.randint(0, 1000, (1, 512)).to(device)
         with torch.no_grad():
             try:
-                if hasattr(model, 'model'):  # SmallCoder
-                    _ = model(input_ids=dummy_input)
-                else:  # HuggingFace model
-                    _ = model(input_ids=dummy_input)
+                _ = model(input_ids=dummy_input)
             except Exception as e:
                 print(f"Warning: Memory measurement failed: {e}")
                 return {'error': str(e)}
