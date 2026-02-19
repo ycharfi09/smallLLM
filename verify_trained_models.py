@@ -274,7 +274,6 @@ Examples:
         result = check_checkpoint(args.checkpoint)
         
         if args.json:
-            import json
             print(json.dumps(result, indent=2))
         else:
             print_verification_report({Path(args.checkpoint).stem: result})
@@ -283,7 +282,6 @@ Examples:
         results = verify_trained_models(args.model_dir)
         
         if args.json:
-            import json
             print(json.dumps(results, indent=2))
         else:
             print_verification_report(results)
