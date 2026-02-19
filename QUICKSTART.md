@@ -145,16 +145,24 @@ print(f"Logits shape: {outputs['logits'].shape}")
 
 ## Training Your Own Model (Optional)
 
-If you want to fine-tune on your data:
+If you want to train on actual code data:
 
 ```bash
-# Train on a code dataset
+# Train all model variants on code (recommended)
+python train_all_variants.py
+
+# Train specific variants
+python train_all_variants.py --variants SmallCoder-Tiny SmallCoder-Small
+
+# Train a single model with custom settings
 python train.py \
     --output_dir ./my_model \
     --dataset bigcode/the-stack-smol \
     --batch_size 2 \
     --num_epochs 3
 ```
+
+See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for comprehensive training instructions.
 
 ## Common Issues & Solutions
 
@@ -190,11 +198,14 @@ python inference.py --checkpoint model.pt --device cpu
 
 1. **Read the README**: Full documentation in [README.md](README.md)
 2. **Check examples**: More examples in [examples.py](examples.py)
-3. **Explore scripts**:
-   - `train.py` - Training script
+3. **Train on code data**: See [TRAINING_GUIDE.md](TRAINING_GUIDE.md) for training all variants
+4. **Explore scripts**:
+   - `train_all_variants.py` - Train all model variants on code
+   - `train.py` - Train individual models
    - `inference.py` - Inference and generation
    - `distill.py` - Knowledge distillation
    - `benchmark.py` - Evaluation benchmarks
+   - `verify_trained_models.py` - Verify models are trained on code
 
 ## Need Help?
 
