@@ -20,7 +20,7 @@ class SmallCoderConfig:
     num_hidden_layers: int = 18  # Increased depth
     num_attention_heads: int = 16
     num_key_value_heads: int = 4  # Grouped-query attention for efficiency
-    max_position_embeddings: int = 4096
+    max_position_embeddings: int = 8192
     rms_norm_eps: float = 1e-6
     rope_theta: float = 10000.0
     attention_dropout: float = 0.0

@@ -14,6 +14,9 @@ A high-performance, memory-efficient coding LLM designed to run on consumer hard
   - RMSNorm for stable training
 - **Quantization Support**: INT8 quantization for even lower memory usage
 - **Easy to Use**: Simple training and inference scripts
+- **Extended Context**: 8192 tokens for handling longer code files
+- **Comprehensive Testing**: Extensive coding task benchmarks across multiple categories
+- **Coding Agent**: Lightweight agent for multi-step problem solving with iterative refinement
 
 ## 🎯 Model Architecture
 
@@ -26,7 +29,7 @@ SmallCoder uses a carefully optimized transformer architecture:
 | Layers | 18 | Sufficient depth for complex patterns |
 | Attention Heads | 16 | Standard multi-head attention |
 | KV Heads | 4 | Grouped-query attention (4x memory savings) |
-| Context Length | 4096 tokens | Long enough for most coding tasks |
+| Context Length | 8192 tokens | Long enough for complex coding tasks |
 | Activation | SwiGLU | Better than standard FFN |
 | Normalization | RMSNorm | More stable than LayerNorm |
 
@@ -171,6 +174,85 @@ generated_code = tokenizer.decode(output_ids[0], skip_special_tokens=True)
 print(generated_code)
 ```
 
+## 🧪 Testing the Model on Coding Tasks
+
+SmallCoder includes a comprehensive test suite covering multiple coding categories:
+
+```bash
+# Run all coding task tests
+python code_tasks.py --checkpoint pretrained_smallcoder.pt
+
+# Run tests for a specific category
+python code_tasks.py --category algorithms
+python code_tasks.py --category data_structures
+python code_tasks.py --category debugging
+
+# Adjust token generation for faster/slower testing
+python code_tasks.py --max_tokens 500
+
+# Save results to a file
+python code_tasks.py --output my_results.json
+```
+
+**Available Test Categories:**
+- `algorithms`: Sorting, searching, graph algorithms
+- `data_structures`: Linked lists, trees, hash tables
+- `debugging`: Bug detection and fixing
+- `refactoring`: Code improvement tasks
+- `explanation`: Code analysis and documentation
+- `web_dev`: REST APIs and web frameworks
+- `async`: Asynchronous programming
+- `error_handling`: Exception handling
+- `testing`: Unit test creation
+- `database`: SQL queries
+- `design_patterns`: Software design patterns
+
+## 🤖 Coding Agent Mode
+
+SmallCoder includes a lightweight coding agent that can:
+- Solve problems iteratively with automatic refinement
+- Execute and test generated code
+- Analyze code for common issues
+- Provide intelligent suggestions
+
+```bash
+# Interactive agent mode
+python coding_agent.py --interactive
+
+# Solve a specific problem
+python coding_agent.py --problem "Write a function to find the longest palindrome substring"
+
+# Solve with custom test cases
+python coding_agent.py --problem "Implement bubble sort" --tests test_cases.json
+
+# Adjust iterations for complex problems
+python coding_agent.py --problem "Build a binary search tree" --max_iterations 5
+```
+
+**Agent Commands (in interactive mode):**
+- `solve <problem>`: Solve a coding problem with iterative refinement
+- `analyze`: Analyze code for issues and suggestions
+- `execute`: Execute Python code safely
+- `help`: Show help message
+- `quit`: Exit agent
+
+**Example Session:**
+```
+Agent> solve Write a function to check if a string is a palindrome
+
+--- Iteration 1/3 ---
+Generating code...
+✓ Generated code (0.45s)
+Analyzing code...
+✓ No issues found!
+Running test cases...
+  Test 1/3: ✓ PASSED
+  Test 2/3: ✓ PASSED
+  Test 3/3: ✓ PASSED
+
+✓ Solution found in 1 iteration(s)!
+```
+
 ## 🎓 Training Your Own Model
 
 ### 1. Prepare Your Dataset
@@ -279,9 +361,11 @@ CPU inference is slower (~2-5 tokens/sec) but works without a GPU.
 Contributions are welcome! Areas for improvement:
 - [ ] Add more training optimizations (LoRA, QLoRA)
 - [ ] Implement knowledge distillation from larger models
-- [ ] Add more evaluation benchmarks
 - [ ] Optimize for Apple Silicon (MPS backend)
 - [x] Create pre-trained checkpoints ✅
+- [x] Extended context length to 8192 tokens ✅
+- [x] Comprehensive coding task benchmarks ✅
+- [x] Lightweight coding agent with iterative refinement ✅
 
 ## 📝 License
 
