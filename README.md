@@ -13,6 +13,8 @@ A high-performance, memory-efficient coding LLM family designed to run on consum
 - [Installation](#installation)
 - [Usage](#usage-examples)
 - [Training](#-training-your-own-model)
+  - [Train All Variants](#train-all-model-variants-recommended)
+  - [Training Guide](TRAINING_GUIDE.md)
 - [Performance & Benchmarks](#comparison-with-larger-models)
 - [Performance Tips](#-performance-tips)
 - [Contributing](#-contributing)

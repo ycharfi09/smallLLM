@@ -210,6 +210,27 @@ trained_models/
 └── training_summary.json
 ```
 
+## ✅ Verifying Trained Models
+
+After training, verify that models were trained on actual code data:
+
+```bash
+# Verify all trained models
+python verify_trained_models.py
+
+# Verify specific checkpoint
+python verify_trained_models.py --checkpoint trained_models/SmallCoder-Tiny/best_model.pt
+
+# Get JSON output for automation
+python verify_trained_models.py --json
+```
+
+The verification script checks:
+- ✓ Models are trained on recognized code datasets
+- ✓ Training metadata is present
+- ✓ Validation losses are recorded
+- ⚠️  Warns if dataset is not a known code dataset
+
 ## 🎯 Using Trained Models
 
 After training, use your models:

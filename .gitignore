@@ -137,6 +137,8 @@ cython_debug/
 
 # Model checkpoints and training artifacts
 checkpoints/
+trained_models/
+distilled_model/
 *.pt
 *.pth
 *.ckpt
