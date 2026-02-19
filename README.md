@@ -13,6 +13,8 @@ A high-performance, memory-efficient coding LLM family designed to run on consum
 - [Installation](#installation)
 - [Usage](#usage-examples)
 - [Training](#-training-your-own-model)
+  - [Train All Variants](#train-all-model-variants-recommended)
+  - [Training Guide](TRAINING_GUIDE.md)
 - [Performance & Benchmarks](#comparison-with-larger-models)
 - [Performance Tips](#-performance-tips)
 - [Contributing](#-contributing)
@@ -223,6 +225,25 @@ pip install -e .
 ```
 
 ### Training
+
+#### Train All Model Variants (Recommended)
+
+Train all 6 model variants on actual code data:
+
+```bash
+# Train all variants on the default code dataset
+python train_all_variants.py
+
+# Train specific variants only
+python train_all_variants.py --variants SmallCoder-Tiny SmallCoder-Small
+
+# Quick test training
+python train_all_variants.py --max-samples 10000 --num-epochs 1
+```
+
+See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for comprehensive training instructions.
+
+#### Train Individual Model
 
 Train SmallCoder on your own code dataset:
 
