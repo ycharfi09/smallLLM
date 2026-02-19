@@ -187,7 +187,7 @@ python cli_agent.py --variant SmallCoder-Medium-LC --interactive
 Compare all model variants on your hardware:
 
 ```bash
-# Benchmark all variants (requires GPUs)
+# Benchmark all variants (requires GPU)
 python benchmark_variants.py --device cuda --output results.json
 
 # Benchmark specific variants
