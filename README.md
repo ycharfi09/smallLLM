@@ -283,7 +283,7 @@ We've evaluated SmallCoder on a variety of code generation tasks. Below are the 
 | Metric | Value |
 |--------|-------|
 | **Average Generation Speed** | 15.5 tokens/s (CPU) |
-| **Average Generation Time** | 9.67s per completion (150 tokens) |
+| **Average Generation Time** | 9.67s to generate 150 output tokens |
 | **Model Parameters** | ~304M |
 | **Memory Usage (FP16)** | ~0.61 GB |
 | **Memory Usage (INT8)** | ~0.30 GB |
@@ -327,12 +327,12 @@ python benchmark.py \
     --output benchmark_results.json
 ```
 
-**Note**: These benchmarks were run on a CPU environment. With GPU acceleration (CUDA), generation speeds can be 3-10x faster, reaching 50-150 tokens/s depending on hardware.
+**Note**: These benchmarks were run on a CPU environment. With GPU acceleration (CUDA), generation speeds can be 3-10x faster, reaching 45-150 tokens/s depending on hardware.
 
 ### Performance Notes
 
 - **CPU Mode**: ~15 tokens/s - Suitable for development and testing
-- **GPU Mode (2GB VRAM)**: ~50-80 tokens/s - Great for interactive use
+- **GPU Mode (2GB VRAM)**: ~45-80 tokens/s - Great for interactive use
 - **GPU Mode (4GB+ VRAM)**: ~80-150 tokens/s - Excellent for production use
 - **With INT8 Quantization**: Memory usage reduced by 50% with minimal performance impact
 
