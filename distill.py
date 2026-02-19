@@ -214,7 +214,6 @@ def main():
                 print("\n📋 RECOMMENDED ALTERNATIVE DATASETS:")
                 print("  • bigcode/the-stack-smol (default, recommended)")
                 print("  • bigcode/the-stack-dedup")
-                print("  • codeparrot/github-code-clean (if available)")
                 print("\n✅ TO FIX: Run with a supported dataset:")
                 print(f"   python distill.py --dataset bigcode/the-stack-smol")
                 print("\nFor more info: https://huggingface.co/docs/datasets/about_dataset_load")

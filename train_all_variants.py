@@ -78,7 +78,6 @@ def load_code_dataset(dataset_name, max_samples=100000, streaming=True):
             print("\n📋 RECOMMENDED ALTERNATIVE DATASETS:")
             print("  • bigcode/the-stack-smol (default, recommended)")
             print("  • bigcode/the-stack-dedup")
-            print("  • codeparrot/github-code-clean (if available)")
             print("\n✅ TO FIX: Run with a supported dataset:")
             print(f"   python {os.path.basename(__file__)} --dataset bigcode/the-stack-smol")
             print("\nFor more info: https://huggingface.co/docs/datasets/about_dataset_load")
