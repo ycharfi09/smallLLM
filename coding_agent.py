@@ -163,7 +163,7 @@ class CodingAgent:
             'lines_of_code': len([l for l in lines if l.strip() and not l.strip().startswith('#')])
         }
     
-    def solve_problem(self, problem: str, test_cases: Optional[List[Tuple[str, str]]] = None) -> Dict[str, any]:
+    def solve_problem(self, problem: str, test_cases: Optional[List[Tuple[str, str]]] = None) -> Dict[str, Any]:
         """
         Solve a coding problem with iterative refinement
         
