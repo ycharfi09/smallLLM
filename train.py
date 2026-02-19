@@ -124,6 +124,8 @@ def main():
     parser.add_argument('--warmup_steps', type=int, default=500, help='Warmup steps')
     parser.add_argument('--save_steps', type=int, default=1000, help='Save checkpoint every N steps')
     parser.add_argument('--use_fp16', action='store_true', help='Use mixed precision training')
+    parser.add_argument('--allow_dummy_data', action='store_true', 
+                        help='Allow fallback to dummy data if dataset loading fails (not recommended for production)')
     args = parser.parse_args()
     
     # Setup
@@ -157,7 +159,8 @@ def main():
         dataset = load_dataset(args.dataset, split="train", streaming=True)
         # Take a subset for training (adjust as needed)
         train_data = []
-        for i, item in enumerate(dataset):
+        print("Processing code samples...")
+        for i, item in enumerate(tqdm(dataset, desc="Loading dataset")):
             if i >= 100000:  # Limit to 100k examples for initial training
                 break
             if 'content' in item:
@@ -165,13 +168,34 @@ def main():
             elif 'text' in item:
                 train_data.append({'text': item['text']})
         
+        if len(train_data) == 0:
+            raise ValueError("No valid code samples found in dataset")
+        
+        print(f"✓ Successfully loaded {len(train_data):,} code samples from actual dataset")
+        
         # Split train/val
         split_idx = int(0.95 * len(train_data))
         train_dataset = CodeDataset(train_data[:split_idx], tokenizer, args.max_length)
         val_dataset = CodeDataset(train_data[split_idx:], tokenizer, args.max_length)
     except Exception as e:
-        print(f"Error loading dataset: {e}")
-        print("Using dummy dataset for demonstration...")
+        print(f"\n❌ Error loading dataset: {e}")
+        
+        if not args.allow_dummy_data:
+            print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
+            print("This script requires real code data to train a usable coding model.")
+            print("\nPossible solutions:")
+            print("1. Check your internet connection")
+            print("2. Verify the dataset name is correct")
+            print("3. Try a different dataset: --dataset codeparrot/github-code")
+            print("4. If you want to use dummy data for testing, add --allow_dummy_data flag")
+            print("\nExiting to prevent training on insufficient data.")
+            raise SystemExit(1)
+        
+        print("\n⚠️  WARNING: Using dummy dataset for demonstration...")
+        print("This is NOT suitable for training a usable coding model!")
+        print("The model will not produce meaningful code completions.")
+        print("Use --dataset with actual code data for production training.")
+        
         # Create dummy dataset
         dummy_data = [
             {'text': 'def hello_world():\n    print("Hello, World!")'},

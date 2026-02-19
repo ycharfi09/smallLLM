@@ -126,6 +126,10 @@ def main():
                         help='Weight for CE loss vs KD loss')
     parser.add_argument('--temperature', type=float, default=2.0,
                         help='Distillation temperature')
+    parser.add_argument('--allow_dummy_data', action='store_true',
+                        help='Allow fallback to dummy data if dataset loading fails (not recommended)')
+    parser.add_argument('--max_samples', type=int, default=10000,
+                        help='Maximum number of samples to load from dataset')
     args = parser.parse_args()
     
     # Setup
@@ -170,13 +174,53 @@ def main():
     print(f"Student parameters: {count_parameters(student):,} (~{count_parameters(student)/1e6:.1f}M)")
     student = student.to(device)
     
-    # Create dataset (simplified for example)
+    # Load actual code dataset
     print("\nPreparing dataset...")
-    dummy_data = [
-        {'text': 'def hello_world():\n    print("Hello, World!")'},
-        {'text': 'class MyClass:\n    def __init__(self):\n        self.value = 0'},
-    ] * 50
-    dataset = CodeDataset(dummy_data, tokenizer, args.max_length)
+    try:
+        from datasets import load_dataset as hf_load_dataset
+        print(f"Loading code dataset: {args.dataset}")
+        hf_dataset = hf_load_dataset(args.dataset, split="train", streaming=True)
+        
+        code_data = []
+        for i, item in enumerate(tqdm(hf_dataset, desc="Loading code samples", total=args.max_samples)):
+            if i >= args.max_samples:
+                break
+            
+            text = None
+            if 'content' in item:
+                text = item['content']
+            elif 'text' in item:
+                text = item['text']
+            
+            if text and len(text.strip()) > 50:
+                code_data.append({'text': text})
+        
+        if len(code_data) == 0:
+            raise ValueError("No valid code samples found")
+        
+        print(f"✓ Loaded {len(code_data):,} code samples")
+        dataset = CodeDataset(code_data, tokenizer, args.max_length)
+        
+    except Exception as e:
+        print(f"\n❌ Error loading code dataset: {e}")
+        
+        if not args.allow_dummy_data:
+            print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
+            print("Knowledge distillation requires real code data for effective learning.")
+            print("\nPossible solutions:")
+            print("1. Check your internet connection")
+            print("2. Verify the dataset name is correct")
+            print("3. Use --allow_dummy_data flag for testing (not recommended)")
+            raise SystemExit(1)
+        
+        print("\n⚠️  WARNING: Using dummy dataset for demonstration...")
+        print("This is NOT suitable for production distillation!")
+        dummy_data = [
+            {'text': 'def hello_world():\n    print("Hello, World!")'},
+            {'text': 'class MyClass:\n    def __init__(self):\n        self.value = 0'},
+        ] * 50
+        dataset = CodeDataset(dummy_data, tokenizer, args.max_length)
+    
     dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     
     # Setup training
