@@ -12,7 +12,7 @@ import re
 import json
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 
 
 class CodingAgent:
@@ -75,7 +75,7 @@ class CodingAgent:
         
         return None
     
-    def execute_code(self, code: str, test_input: Optional[str] = None) -> Dict[str, any]:
+    def execute_code(self, code: str, test_input: Optional[str] = None) -> Dict[str, Any]:
         """Execute Python code in a safe temporary environment"""
         try:
             with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
@@ -115,7 +115,7 @@ class CodingAgent:
                 'returncode': -1
             }
     
-    def analyze_code(self, code: str) -> Dict[str, any]:
+    def analyze_code(self, code: str) -> Dict[str, Any]:
         """Analyze code for common issues and provide feedback"""
         issues = []
         suggestions = []
