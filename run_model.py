@@ -297,7 +297,7 @@ Examples:
     print(f"  - Layers: {config.num_hidden_layers}")
     print(f"  - Attention heads: {config.num_attention_heads}")
     print(f"  - KV heads: {config.num_key_value_heads} (Grouped-Query Attention)")
-    print(f"  - Context length: {config.max_position_embeddings} tokens")
+    print(f"  - Context length: {config.max_position_embeddings} tokens (doubled for longer code)")
     
     # Run interactive or single generation
     if args.interactive:
