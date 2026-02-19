@@ -202,15 +202,29 @@ def main():
         dataset = CodeDataset(code_data, tokenizer, args.max_length)
         
     except Exception as e:
+        error_msg = str(e)
         print(f"\n❌ Error loading code dataset: {e}")
         
         if not args.allow_dummy_data:
-            print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
-            print("Knowledge distillation requires real code data for effective learning.")
-            print("\nPossible solutions:")
-            print("1. Check your internet connection")
-            print("2. Verify the dataset name is correct")
-            print("3. Use --allow_dummy_data flag for testing (not recommended)")
+            # Check for specific error about deprecated dataset scripts
+            if "Dataset scripts are no longer supported" in error_msg:
+                print("\n⚠️  DATASET SCRIPT ERROR DETECTED!")
+                print(f"The dataset '{args.dataset}' uses a custom loading script which is no longer supported")
+                print("in newer versions of the HuggingFace datasets library (v2.14.0+).")
+                print("\n📋 RECOMMENDED ALTERNATIVE DATASETS:")
+                print("  • bigcode/the-stack-smol (default, recommended)")
+                print("  • bigcode/the-stack-dedup")
+                print("  • codeparrot/github-code-clean (if available)")
+                print("\n✅ TO FIX: Run with a supported dataset:")
+                print(f"   python distill.py --dataset bigcode/the-stack-smol")
+                print("\nFor more info: https://huggingface.co/docs/datasets/about_dataset_load")
+            else:
+                print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
+                print("Knowledge distillation requires real code data for effective learning.")
+                print("\nPossible solutions:")
+                print("1. Check your internet connection")
+                print("2. Verify the dataset name is correct")
+                print("3. Use --allow_dummy_data flag for testing (not recommended)")
             raise SystemExit(1)
         
         print("\n⚠️  WARNING: Using dummy dataset for demonstration...")

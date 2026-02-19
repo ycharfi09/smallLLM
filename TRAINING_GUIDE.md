@@ -84,8 +84,12 @@ python train_all_variants.py --dataset bigcode/the-stack-smol
 # Use The Stack (full version - very large, requires more time)
 python train_all_variants.py --dataset bigcode/the-stack
 
-# Use GitHub code dataset
-python train_all_variants.py --dataset codeparrot/github-code
+# Use The Stack dedup version (recommended for production)
+python train_all_variants.py --dataset bigcode/the-stack-dedup
+
+# NOTE: codeparrot/github-code is deprecated due to custom dataset scripts
+# being no longer supported in HuggingFace datasets v2.14.0+
+# Use bigcode/the-stack-smol or bigcode/the-stack-dedup instead
 
 # Filter by language (Python only example)
 python train_all_variants.py --dataset bigcode/the-stack-smol --subset python

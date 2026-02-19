@@ -46,7 +46,8 @@ def check_checkpoint(checkpoint_path):
             known_code_datasets = [
                 'bigcode/the-stack',
                 'bigcode/the-stack-smol',
-                'codeparrot/github-code',
+                'bigcode/the-stack-dedup',
+                # Note: codeparrot/github-code is deprecated (uses custom scripts)
             ]
             
             is_code_dataset = any(ds in dataset for ds in known_code_datasets)

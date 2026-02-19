@@ -67,13 +67,30 @@ def load_code_dataset(dataset_name, max_samples=100000, streaming=True):
         return train_data
     
     except Exception as e:
+        error_msg = str(e)
         print(f"\n❌ Error loading dataset: {e}")
-        print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
-        print("This script requires real code data to train the models.")
-        print("\nPossible solutions:")
-        print("1. Check your internet connection")
-        print("2. Verify the dataset name is correct")
-        print("3. Try a different dataset with --dataset flag")
+        
+        # Check for specific error about deprecated dataset scripts
+        if "Dataset scripts are no longer supported" in error_msg:
+            print("\n⚠️  DATASET SCRIPT ERROR DETECTED!")
+            print(f"The dataset '{dataset_name}' uses a custom loading script which is no longer supported")
+            print("in newer versions of the HuggingFace datasets library (v2.14.0+).")
+            print("\n📋 RECOMMENDED ALTERNATIVE DATASETS:")
+            print("  • bigcode/the-stack-smol (default, recommended)")
+            print("  • bigcode/the-stack-dedup")
+            print("  • codeparrot/github-code-clean (if available)")
+            print("\n✅ TO FIX: Run with a supported dataset:")
+            print(f"   python {os.path.basename(__file__)} --dataset bigcode/the-stack-smol")
+            print("\nFor more info: https://huggingface.co/docs/datasets/about_dataset_load")
+        else:
+            print("\n⚠️  CRITICAL: Unable to load actual code dataset!")
+            print("This script requires real code data to train the models.")
+            print("\nPossible solutions:")
+            print("1. Check your internet connection")
+            print("2. Verify the dataset name is correct")
+            print("3. Try a different dataset with --dataset flag")
+            print("   Example: --dataset bigcode/the-stack-smol")
+        
         print("\nRefusing to train on dummy data.")
         raise RuntimeError("Cannot proceed without actual code dataset")
 
@@ -260,8 +277,8 @@ Examples:
   # Train specific variants only
   python train_all_variants.py --variants SmallCoder-Tiny SmallCoder-Small
 
-  # Use a different dataset
-  python train_all_variants.py --dataset codeparrot/github-code
+  # Use a different dataset (bigcode/the-stack-dedup recommended)
+  python train_all_variants.py --dataset bigcode/the-stack-dedup
 
   # Quick training for testing (fewer samples, fewer epochs)
   python train_all_variants.py --max-samples 10000 --num-epochs 1
