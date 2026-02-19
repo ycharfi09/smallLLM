@@ -272,7 +272,7 @@ python inference.py \
     --max_tokens 100
 ```
 
-CPU inference is slower (~2-5 tokens/sec) but works without a GPU.
+CPU inference works without a GPU. Performance varies based on CPU capabilities (~5-20 tokens/s typical). See the Benchmark Results section below for detailed performance metrics.
 
 ## 📊 Benchmark Results
 
@@ -283,7 +283,7 @@ We've evaluated SmallCoder on a variety of code generation tasks. Below are the 
 | Metric | Value |
 |--------|-------|
 | **Average Generation Speed** | 15.5 tokens/s (CPU) |
-| **Average Generation Time** | 9.67s per completion |
+| **Average Generation Time** | 9.67s per completion (150 tokens) |
 | **Model Parameters** | ~304M |
 | **Memory Usage (FP16)** | ~0.61 GB |
 | **Memory Usage (INT8)** | ~0.30 GB |
@@ -327,7 +327,7 @@ python benchmark.py \
     --output benchmark_results.json
 ```
 
-**Note**: These benchmarks were run on a CPU environment. With GPU acceleration (CUDA), generation speeds can be 5-10x faster, reaching 50-150 tokens/s depending on hardware.
+**Note**: These benchmarks were run on a CPU environment. With GPU acceleration (CUDA), generation speeds can be 3-10x faster, reaching 50-150 tokens/s depending on hardware.
 
 ### Performance Notes
 
