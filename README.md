@@ -1,6 +1,6 @@
 # SmallCoder 🚀
 
-A high-performance, memory-efficient coding LLM family designed to run on consumer hardware ranging from minimal devices to standard laptops. Available in **6 model variants** to suit your hardware constraints.
+A high-performance, memory-efficient coding LLM family designed to run on consumer hardware ranging from minimal devices to standard laptops. Available in **6 model variants** (100M-304M parameters) to suit your hardware constraints.
 
 ## 📚 Table of Contents
 
@@ -19,7 +19,7 @@ A high-performance, memory-efficient coding LLM family designed to run on consum
 
 ## ✨ Key Features
 
-- **Multiple Model Sizes**: From 85M to 304M parameters across 6 variants
+- **Multiple Model Sizes**: From 100M to 304M parameters across 6 variants
 - **Long Context Support**: Up to 8K tokens for extended code analysis
 - **CLI Agent Interface**: Interactive coding assistant like Claude Code
 - **Memory Efficient**: Runs on as little as 0.5GB VRAM
@@ -41,16 +41,16 @@ SmallCoder comes in **6 variants** to suit different hardware and use case requi
 
 | Model | Parameters | Hidden Size | Layers | Context | VRAM | RAM | Best For |
 |-------|-----------|-------------|--------|---------|------|-----|----------|
-| **SmallCoder-Tiny** | ~85M | 768 | 12 | 2K | 0.5GB | 4GB | Ultra-compact devices, IoT |
-| **SmallCoder-Small** | ~180M | 960 | 16 | 4K | 1.0GB | 6GB | Budget GPUs, older hardware |
+| **SmallCoder-Tiny** | ~100M | 768 | 12 | 2K | 0.5GB | 4GB | Ultra-compact devices, IoT |
+| **SmallCoder-Small** | ~194M | 960 | 16 | 4K | 1.0GB | 6GB | Budget GPUs, older hardware |
 | **SmallCoder-Medium** | ~304M | 1152 | 18 | 4K | 2.0GB | 8GB | Balanced performance |
 
 ### Long Context Variants (8K tokens)
 
 | Model | Parameters | Hidden Size | Layers | Context | VRAM | RAM | Best For |
 |-------|-----------|-------------|--------|---------|------|-----|----------|
-| **SmallCoder-Tiny-LC** | ~85M | 768 | 12 | 8K | 0.8GB | 4GB | Long code analysis on minimal hardware |
-| **SmallCoder-Small-LC** | ~180M | 960 | 16 | 8K | 1.5GB | 6GB | Extended context on budget GPUs |
+| **SmallCoder-Tiny-LC** | ~100M | 768 | 12 | 8K | 0.8GB | 4GB | Long code analysis on minimal hardware |
+| **SmallCoder-Small-LC** | ~194M | 960 | 16 | 8K | 1.5GB | 6GB | Extended context on budget GPUs |
 | **SmallCoder-Medium-LC** | ~304M | 1152 | 18 | 8K | 2.5GB | 8GB | Full-featured long context coding |
 
 **Architecture Features** (all variants):
@@ -65,11 +65,11 @@ Performance metrics on standard coding benchmarks (tokens/second on RTX 3060):
 
 | Variant | Speed (tok/s) | Quality Score* | Memory (MB) | Parameters |
 |---------|--------------|----------------|-------------|------------|
-| Tiny | ~120 | 75% | ~350 | 85M |
-| Small | ~85 | 82% | ~750 | 180M |
+| Tiny | ~120 | 75% | ~350 | 100M |
+| Small | ~85 | 82% | ~750 | 194M |
 | Medium | ~60 | 88% | ~1,200 | 304M |
-| Tiny-LC | ~95 | 76% | ~420 | 85M |
-| Small-LC | ~65 | 83% | ~900 | 180M |
+| Tiny-LC | ~95 | 76% | ~420 | 100M |
+| Small-LC | ~65 | 83% | ~900 | 194M |
 | Medium-LC | ~45 | 89% | ~1,500 | 304M |
 
 *Quality score based on keyword matching and code correctness metrics
@@ -375,8 +375,8 @@ Monitor training progress and adjust hyperparameters:
 
 | Model | Parameters | VRAM (FP16) | Speed* | Quality | Context |
 |-------|------------|-------------|--------|---------|---------|
-| **SmallCoder-Tiny** | 85M | ~0.4GB | 🚀🚀🚀🚀 | ⭐⭐⭐ | 2K |
-| **SmallCoder-Small** | 180M | ~0.8GB | 🚀🚀🚀 | ⭐⭐⭐⭐ | 4K |
+| **SmallCoder-Tiny** | 100M | ~0.4GB | 🚀🚀🚀🚀 | ⭐⭐⭐ | 2K |
+| **SmallCoder-Small** | 194M | ~0.8GB | 🚀🚀🚀 | ⭐⭐⭐⭐ | 4K |
 | **SmallCoder-Medium** | 304M | ~1.2GB | 🚀🚀🚀 | ⭐⭐⭐⭐ | 4K |
 | **SmallCoder-Medium-LC** | 304M | ~1.5GB | 🚀🚀 | ⭐⭐⭐⭐ | 8K |
 | CodeLlama-7B | 7B | ~14GB | 🚀 | ⭐⭐⭐⭐⭐ | 16K |

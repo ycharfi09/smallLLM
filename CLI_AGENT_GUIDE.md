@@ -104,11 +104,11 @@ Choose the right variant for your hardware:
 
 | Variant | Parameters | VRAM | Best For | Command |
 |---------|-----------|------|----------|---------|
-| Tiny | 85M | 0.5GB | Minimal hardware | `--variant SmallCoder-Tiny` |
-| Small | 180M | 1.0GB | Budget GPUs | `--variant SmallCoder-Small` |
+| Tiny | 100M | 0.5GB | Minimal hardware | `--variant SmallCoder-Tiny` |
+| Small | 194M | 1.0GB | Budget GPUs | `--variant SmallCoder-Small` |
 | Medium | 304M | 2.0GB | Standard laptops | `--variant SmallCoder-Medium` (default) |
-| Tiny-LC | 85M | 0.8GB | Long context, minimal | `--variant SmallCoder-Tiny-LC` |
-| Small-LC | 180M | 1.5GB | Long context, budget | `--variant SmallCoder-Small-LC` |
+| Tiny-LC | 100M | 0.8GB | Long context, minimal | `--variant SmallCoder-Tiny-LC` |
+| Small-LC | 194M | 1.5GB | Long context, budget | `--variant SmallCoder-Small-LC` |
 | Medium-LC | 304M | 2.5GB | Long context, full | `--variant SmallCoder-Medium-LC` |
 
 ## ⚙️ Configuration Options
