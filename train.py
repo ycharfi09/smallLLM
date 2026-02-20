@@ -51,11 +51,13 @@ class CodeDataset(Dataset):
         }
 
 
-def train_epoch(model, dataloader, optimizer, scheduler, device, gradient_accumulation_steps=4):
+def train_epoch(model, dataloader, optimizer, scheduler, device, gradient_accumulation_steps=4,
+                epoch=0, global_step=0, checkpoint_every=1000, drive_checkpoint_dir='/content/drive/MyDrive'):
     """Train for one epoch"""
     model.train()
     total_loss = 0
     optimizer.zero_grad()
+    accumulated_loss = 0.0
     
     pbar = tqdm(dataloader, desc="Training")
     for step, batch in enumerate(pbar):
@@ -72,6 +74,7 @@ def train_epoch(model, dataloader, optimizer, scheduler, device, gradient_accumu
         
         loss = outputs['loss'] / gradient_accumulation_steps
         loss.backward()
+        accumulated_loss += loss.item() * gradient_accumulation_steps
         
         # Gradient accumulation
         if (step + 1) % gradient_accumulation_steps == 0:
@@ -79,11 +82,30 @@ def train_epoch(model, dataloader, optimizer, scheduler, device, gradient_accumu
             optimizer.step()
             scheduler.step()
             optimizer.zero_grad()
+            global_step += 1
+
+            # Auto-save checkpoint every N optimizer steps to Google Drive (or configured dir)
+            if global_step % checkpoint_every == 0:
+                avg_loss = accumulated_loss / gradient_accumulation_steps
+                ckpt_path = os.path.join(drive_checkpoint_dir, f"smallcoder_ckpt_{global_step}.pt")
+                try:
+                    torch.save({
+                        'step': global_step,
+                        'epoch': epoch,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),
+                        'loss': avg_loss,
+                    }, ckpt_path)
+                    print(f"\n✓ Checkpoint saved at step {global_step} | loss: {avg_loss:.4f} → {ckpt_path}")
+                except Exception as e:
+                    print(f"\n⚠️  Failed to save checkpoint at step {global_step}: {e}")
+                    print("Ensure the checkpoint directory is accessible (e.g. mount Google Drive on Colab).")
+            accumulated_loss = 0.0
         
         total_loss += loss.item() * gradient_accumulation_steps
         pbar.set_postfix({'loss': loss.item() * gradient_accumulation_steps})
     
-    return total_loss / len(dataloader)
+    return total_loss / len(dataloader), global_step
 
 
 def evaluate(model, dataloader, device):
@@ -120,9 +142,11 @@ def main():
     parser.add_argument('--gradient_accumulation_steps', type=int, default=16, 
                         help='Gradient accumulation steps')
     parser.add_argument('--learning_rate', type=float, default=3e-4, help='Learning rate')
-    parser.add_argument('--num_epochs', type=int, default=3, help='Number of epochs')
+    parser.add_argument('--num_epochs', type=int, default=1, help='Number of epochs')
     parser.add_argument('--warmup_steps', type=int, default=500, help='Warmup steps')
     parser.add_argument('--save_steps', type=int, default=1000, help='Save checkpoint every N steps')
+    parser.add_argument('--drive_checkpoint_dir', type=str, default='/content/drive/MyDrive',
+                        help='Directory for auto-save checkpoints (e.g. Google Drive on Colab)')
     parser.add_argument('--use_fp16', action='store_true', help='Use mixed precision training')
     parser.add_argument('--allow_dummy_data', action='store_true', 
                         help='Allow fallback to dummy data if dataset loading fails (not recommended for production)')
@@ -161,7 +185,7 @@ def main():
         train_data = []
         print("Processing code samples...")
         for i, item in enumerate(tqdm(dataset, desc="Loading dataset")):
-            if i >= 100000:  # Limit to 100k examples for initial training
+            if i >= 20000:  # Limit to 20k examples for initial training
                 break
             if 'content' in item:
                 train_data.append({'text': item['content']})
@@ -249,13 +273,16 @@ def main():
     # Training loop
     print("\nStarting training...")
     best_val_loss = float('inf')
+    global_step = 0
     
     for epoch in range(args.num_epochs):
         print(f"\nEpoch {epoch + 1}/{args.num_epochs}")
         
         # Train
-        train_loss = train_epoch(
-            model, train_loader, optimizer, scheduler, device, args.gradient_accumulation_steps
+        train_loss, global_step = train_epoch(
+            model, train_loader, optimizer, scheduler, device, args.gradient_accumulation_steps,
+            epoch=epoch, global_step=global_step, checkpoint_every=args.save_steps,
+            drive_checkpoint_dir=args.drive_checkpoint_dir
         )
         print(f"Train loss: {train_loss:.4f}")
         
