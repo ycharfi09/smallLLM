@@ -312,6 +312,7 @@ class SmallCoderModel(nn.Module):
         causal_mask = causal_mask.expand(batch_size, 1, seq_length, seq_length)
         
         # Combine with attention mask
+        attention_mask = attention_mask.bool()
         attention_mask = attention_mask[:, None, None, :].expand(batch_size, 1, seq_length, seq_length)
         attention_mask = attention_mask & ~causal_mask
         attention_mask = torch.where(attention_mask, 0.0, float('-inf'))
